@@ -1,0 +1,11 @@
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.110.0"
+    max = ""
+  [[module.mounts]]
+    source = 'layouts'
+    target = 'layouts'
+  [[module.mounts]]
+    source = 'static'
+    target = 'static'
