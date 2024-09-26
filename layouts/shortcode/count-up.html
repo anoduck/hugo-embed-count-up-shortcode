@@ -1,60 +1,9 @@
-{{ $error := false }}
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js">
-<script type="text/javascript" src="/js/count-up/script.js"></script>
-
-<style>
-ul#countdown {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 50%;
-  margin: 0 auto;
-  padding: 15px 0 20px 0;
-  color: #fff;
-  border: 1px solid #adafb2;
-  border-width: 1px 0;
-  overflow: hidden;
-  font-family: "Arial Narrow", Arial, sans-serif;
-  font-weight: bold;
-}
-ul#countdown li {
-  margin: 0 -3px 0 0;
-  padding: 0;
-  display: inline-block;
-  width: 19.0%;
-  font-size: 72px;
-  font-size: 6vw;
-  text-align: center;
-}
-ul#countdown li .label {
-  color: #adafb2;
-  font-size: 18px;
-  font-size: 1.5vw;
-  text-transform: uppercase;
-}
-</style>
-
-<ul id="countdown">
-   <li id="months">
-    <div class="number">00</div>
-    <div class="label">Months</div>
-  </li>
-  <li id="days">
-    <div class="number">00</div>
-    <div class="label">Days</div>
-  </li>
-  <li id="hours">
-    <div class="number">00</div>
-    <div class="label">Hours</div>
-  </li>
-  <li id="minutes">
-    <div class="number">00</div>
-    <div class="label">Minutes</div>
-  </li>
-  <li id="seconds">
-    <div class="number">00</div>
-    <div class="label">Seconds</div>
-  </li>
-</ul>
+ <style> .container{ background-color:#000;width:100%;height:100%;}ul#countdown{ position:relative;top:50%;transform:translateY(-50%);width:50%;margin:0 auto;padding:15px 0 20px 0;color:#fff;border:1px solid #adafb2;border-width:1px 0;overflow:hidden;font-family:"Arial Narrow", Arial, sans-serif;font-weight:bold;}ul#countdown li{ margin:0 -3px 0 0;padding:0;display:inline-block;width:19.0%;font-size:72px;font-size:6vw;text-align:center;}ul#countdown li .label{ color:#adafb2;font-size:18px;font-size:1.5vw;text-transform:uppercase;} </style> <span style="height:300px">&nbsp;</span> <div class="container"> <ul id="countdown"> <li id="months"> <div class="number">00</div> <div class="label">Months</div> </li> <li id="days"> <div class="number">00</div> <div class="label">Days</div> </li> <li id="hours"> <div class="number">00</div> <div class="label">Hours</div> </li> <li id="minutes"> <div class="number">00</div> <div class="label">Minutes</div> </li> <li id="seconds"> <div class="number">00</div> <div class="label">Seconds</div> </li> </ul> </div> <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script> 
+<script>
+  {{ if .IsNamedParams }}
+     var targetDate = new Date({{ with .Get "date" }}{{ time.AsTime . }}).valueOf();
+  {{ else }}
+     var targetDate = new Date({{ with .Get 0 }}{{ time.AsTime . }}).valueOf();
+  {{ end }}
+ var countdownActive = true;
+function timeFromEvent(){var t=(new Date).valueOf(),e=(t-targetDate)/1e3;e=Math.max(0,e),months=Math.floor(e/(30.44*24*60*60)),e-=30.44*months*24*60*60,days=Math.floor(e/86400),e-=24*days*60*60,hrs=Math.floor(e/3600),e-=60*hrs*60,min=Math.floor(e/60),sec=Math.floor(e%60)}function countDownTimer(){countdownActive&&(timeFromEvent(),$("#months .number").text(months),$("#days .number").text(days),$("#hours .number").text(hrs),$("#minutes .number").text(min),$("#seconds .number").text(sec),0===months&&0===days&&0===hrs&&0===min&&0===sec&&(countdownActive=!1),countdownActive&&setTimeout(countDownTimer,1e3))}function numberTransition(t,e,n,o){$({numberCount:$(t).text()}).animate({numberCount:e},{duration:n,easing:o,step:function(){$(t).text(Math.floor(this.numberCount))},complete:function(){$(t).text(this.numberCount)}})}$(function(){timeFromEvent(),$("#months .number").text(months),$("#days .number").text(days),$("#hours .number").text(hrs),$("#minutes .number").text(min),$("#seconds .number").text(sec),numberTransition("#months .number",months,1e3,"easeOutQuad"),numberTransition("#days .number",days,1e3,"easeOutQuad"),numberTransition("#hours .number",hrs,1e3,"easeOutQuad"),numberTransition("#minutes .number",min,1e3,"easeOutQuad"),numberTransition("#seconds .number",sec,1e3,"easeOutQuad"),setTimeout(countDownTimer,1001)});</script> 
