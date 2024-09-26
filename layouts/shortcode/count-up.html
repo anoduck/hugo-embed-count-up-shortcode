@@ -62,11 +62,15 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script>
-  {{ if .IsNamedParams }}
-      var targetDate = new Date({{ with .Get "date" }}{{ time.AsTime . }}).valueOf();
-  {{ else }}
-      var targetDate = new Date({{ with .Get 0 }}{{ time.AsTime . }}).valueOf();
-  {{ end }}
+  {{- if .IsNamedParams -}}
+      {{- with .Get "date" -}}
+        var targetDate = new Date({{- time.AsTime . | safeJSStr -}}).valueOf();
+      {{- end -}}
+  {{- else -}}
+      {{- with .Get 0 -}}
+        var targetDate = new Date({{- time.AsTime . | safeJSStr -}}).valueOf();
+      {{- end -}}
+  {{- end -}}
   var countdownActive = true;
 
 $(function() {
